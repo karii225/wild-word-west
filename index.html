@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wild Word West</title>
+
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0d9a7;
+      color: #3b2a1a;
+    }
+    input, button {
+      font-size: 18px;
+      padding: 8px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🤠 Wild Word West</h1>
+<p id="word"></p>
+
+<input id="guess" placeholder="Type the word here">
+<br>
+<button py-click="shoot()">Shoot</button>
+
+<p id="result"></p>
+
+<!-- Soft sounds -->
+<audio id="correct" src="soft-correct.mp3"></audio>
+<audio id="wrong" src="soft-wrong.mp3"></audio>
+
+<!-- Optional background music -->
+<audio id="music" src="western-music.mp3" loop></audio>
+<button onclick="toggleMusic()">🎵 Music On / Off</button>
+
+<py-script>
+import random
+from js import document
+
+words = ["cowboy", "horse", "hat", "boot", "star"]
+current = random.choice(words)
+
+document.getElementById("word").innerText = f"Type this word: {current}"
+
+def shoot():
+    global current
+    guess = document.getElementById("guess").value.lower()
+
+    if guess == current:
+        document.getElementById("result").innerText = "Nice job 🙂"
+        document.getElementById("correct").play()
+    else:
+        document.getElementById("result").innerText = "Try again 🙂"
+        document.getElementById("wrong").play()
+
+    document.getElementById("guess").value = ""
+    current = random.choice(words)
+    document.getElementById("word").innerText = f"Type this word: {current}"
+</py-script>
+
+<script>
+const music = document.getElementById("music");
+music.volume = 0.2; // very quiet
+
+function toggleMusic() {
+  if (music.paused) music.play();
+  else music.pause();
+}
+</script>
+
+</body>
+</html>
