@@ -3,11 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Wild Word West</title>
-
-  <!-- PyScript CSS + JS -->
-  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
-  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,7 +27,7 @@
 
 <input id="guess" placeholder="Type the word here">
 <br>
-<button py-click="shoot()">Shoot</button>
+<button id="shootButton">Shoot</button>
 
 <p id="result"></p>
 
@@ -44,37 +39,45 @@
 <audio id="music" src="western-music.mp3" loop></audio>
 <button onclick="toggleMusic()">🎵 Music On / Off</button>
 
-<!-- PyScript Python Code -->
-<py-script>
-import random
-from js import document
-
-words = ["cowboy", "horse", "hat", "boot", "star"]
-current = random.choice(words)
-document.getElementById("word").innerText = f"Type this word: {current}"
-
-def shoot():
-    global current
-    guess = document.getElementById("guess").value.lower()
-    if guess == current:
-        document.getElementById("result").innerText = "Nice job 🙂"
-        document.getElementById("correct").play()
-    else:
-        document.getElementById("result").innerText = "Try again 🙂"
-        document.getElementById("wrong").play()
-    document.getElementById("guess").value = ""
-    current = random.choice(words)
-    document.getElementById("word").innerText = f"Type this word: {current}"
-</py-script>
-
 <script>
+const words = ["cowboy", "horse", "hat", "boot", "star"];
+let current = words[Math.floor(Math.random() * words.length)];
+
+const wordElement = document.getElementById("word");
+const resultElement = document.getElementById("result");
+const guessInput = document.getElementById("guess");
+const correctSound = document.getElementById("correct");
+const wrongSound = document.getElementById("wrong");
 const music = document.getElementById("music");
-music.volume = 0.2;
+
+function newWord() {
+  current = words[Math.floor(Math.random() * words.length)];
+  wordElement.innerText = `Type this word: ${current}`;
+}
+
+function shoot() {
+  const guess = guessInput.value.toLowerCase();
+  if (guess === current) {
+    resultElement.innerText = "Nice job 🙂";
+    correctSound.play();
+  } else {
+    resultElement.innerText = "Try again 🙂";
+    wrongSound.play();
+  }
+  guessInput.value = "";
+  newWord();
+}
 
 function toggleMusic() {
   if (music.paused) music.play();
   else music.pause();
 }
+
+document.getElementById("shootButton").addEventListener("click", shoot);
+
+// Show first word
+newWord();
+music.volume = 0.2;
 </script>
 
 </body>
