@@ -1,4 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wild Word West</title>
+
+  <!-- PyScript CSS + JS -->
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0d9a7;
+      color: #3b2a1a;
+    }
+    input, button {
+      font-size: 18px;
+      padding: 8px;
+      margin-top: 8px;
+    }
+    h1 {
+      font-size: 36px;
+    }
+  </style>
+</head>
 <body>
+
 <h1>🤠 Wild Word West</h1>
 <p id="word"></p>
 
@@ -12,19 +40,23 @@
 <audio id="correct" src="soft-correct.mp3"></audio>
 <audio id="wrong" src="soft-wrong.mp3"></audio>
 
-<!-- Optional music -->
+<!-- Optional background music -->
 <audio id="music" src="western-music.mp3" loop></audio>
 <button onclick="toggleMusic()">🎵 Music On / Off</button>
 
-<!-- Your PyScript -->
+<!-- PyScript Python Code -->
 <py-script>
 import random
 from js import document
 
+# List of words
 words = ["cowboy", "horse", "hat", "boot", "star"]
 current = random.choice(words)
+
+# Show first word
 document.getElementById("word").innerText = f"Type this word: {current}"
 
+# Function to check guess
 def shoot():
     global current
     guess = document.getElementById("guess").value.lower()
@@ -41,11 +73,13 @@ def shoot():
 
 <script>
 const music = document.getElementById("music");
-music.volume = 0.2;
+music.volume = 0.2; // quiet background music
 
 function toggleMusic() {
   if (music.paused) music.play();
   else music.pause();
 }
 </script>
+
 </body>
+</html>
