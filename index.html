@@ -49,14 +49,10 @@
 import random
 from js import document
 
-# List of words
 words = ["cowboy", "horse", "hat", "boot", "star"]
 current = random.choice(words)
-
-# Show first word
 document.getElementById("word").innerText = f"Type this word: {current}"
 
-# Function to check guess
 def shoot():
     global current
     guess = document.getElementById("guess").value.lower()
@@ -73,7 +69,7 @@ def shoot():
 
 <script>
 const music = document.getElementById("music");
-music.volume = 0.2; // quiet background music
+music.volume = 0.2;
 
 function toggleMusic() {
   if (music.paused) music.play();
